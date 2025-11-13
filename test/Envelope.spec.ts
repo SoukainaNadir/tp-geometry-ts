@@ -18,6 +18,8 @@ describe("test Envelope", () => {
         const env = new Envelope([0.0, 1.0], [2.0, 3.0]);
         expect(env.toString()).to.equal("Envelope(xmin=0, ymin=1, xmax=2, ymax=3)");
     });
+
+
 });
 
 describe("test EnvelopeBuilder", () => {
@@ -66,7 +68,5 @@ describe("test EnvelopeBuilder", () => {
         expect(result.getYmin()).to.equal(1.0);
         expect(result.getYmax()).to.equal(8.0);
     });
-
-    
 
 });
