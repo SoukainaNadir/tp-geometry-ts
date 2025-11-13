@@ -66,6 +66,16 @@ describe("test Point", () => {
         expect(copy.y()).to.equal(14.0);
     });
 
+    it("test getEnvelope", () => {
+        const p = new Point([3.0, 4.0]);
+        const env = p.getEnvelope();
+
+        expect(env.getXmin()).to.equal(3.0);
+        expect(env.getYmin()).to.equal(4.0);
+        expect(env.getXmax()).to.equal(3.0);
+        expect(env.getYmax()).to.equal(4.0);
+    });
+
 
 });
 

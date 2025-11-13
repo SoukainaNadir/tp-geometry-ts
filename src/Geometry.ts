@@ -5,4 +5,5 @@ export default interface Geometry {
     isEmpty(): boolean;
     translate(dx: number, dy: number): void;
     clone(): Geometry;
+    getEnvelope(): Envelope;
 }

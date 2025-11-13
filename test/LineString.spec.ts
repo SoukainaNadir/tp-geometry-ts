@@ -93,4 +93,18 @@ describe("test LineString", () => {
         expect(copy.getPointN(0).x()).to.equal(10.0);
         expect(copy.getPointN(0).y()).to.equal(10.0);
     });
+
+    it("test getEnvelope", () => {
+        const p1 = new Point([0.0, 1.0]);
+        const p2 = new Point([2.0, 0.0]);
+        const p3 = new Point([1.0, 3.0]);
+        const ls = new LineString([p1, p2, p3]);
+
+        const env = ls.getEnvelope();
+
+        expect(env.getXmin()).to.equal(0.0);
+        expect(env.getYmin()).to.equal(0.0);
+        expect(env.getXmax()).to.equal(2.0);
+        expect(env.getYmax()).to.equal(3.0);
+    });
 });

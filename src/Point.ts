@@ -1,7 +1,7 @@
 import Coordinate from "./Coordinate";
+import Geometry from "./Geometry";
 import Envelope from "./Envelope";
 import EnvelopeBuilder from "./EnvelopeBuilder";
-import Geometry from "./Geometry";
 
 export default class Point implements Geometry {
   private coordinate?: Coordinate;
@@ -41,11 +41,14 @@ export default class Point implements Geometry {
     if (this.coordinate === undefined) {
       return new Point();
     }
-    return new Point([...this.coordinate]);
+    return new Point([this.coordinate[0], this.coordinate[1]]);
   }
 
-
-
-
-
+  getEnvelope(): Envelope {
+    const builder = new EnvelopeBuilder();
+    if (this.coordinate !== undefined) {
+      builder.insert(this.coordinate);
+    }
+    return builder.build();
+  }
 }
