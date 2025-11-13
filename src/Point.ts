@@ -23,4 +23,10 @@ export default class Point implements Geometry {
   getType(): string {
     return this.constructor.name;
   }
+
+  isEmpty(): boolean {
+    return this.coordinate === undefined;
+  }
+
+
 }

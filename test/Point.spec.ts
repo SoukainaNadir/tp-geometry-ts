@@ -10,11 +10,24 @@ describe("test Point", () => {
         expect(Number.isNaN(p.y()));
         expect(p.getType()).to.equal("Point");
     });
+
     it("test constructor with coordinates", () => {
         const p = new Point([3.0,4.0]);
         expect(p.getCoordinate()).to.deep.equal([3.0,4.0]);
         expect(p.x()).to.equal(3.0);
         expect(p.y()).to.equal(4.0);
     });
+
+    it("test isEmpty with empty point", () => {
+        const p = new Point();
+        expect(p.isEmpty()).to.equal(true);
+    });
+
+    it("test isEmpty with point having coordinates", () => {
+        const p = new Point([3.0, 4.0]);
+        expect(p.isEmpty()).to.equal(false);
+    });
+
+    
 });
 

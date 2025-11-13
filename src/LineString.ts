@@ -22,4 +22,9 @@ export default class LineString implements Geometry {
   getType(): string {
     return this.constructor.name;
   }
+
+  isEmpty(): boolean {
+    return this.points.length === 0;
+  }
+
 }
