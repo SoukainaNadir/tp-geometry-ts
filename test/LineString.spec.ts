@@ -51,4 +51,24 @@ describe("test LineString", () => {
         expect(ls.isEmpty()).to.equal(false);
     });
     
+
+    it("test translate", () => {
+        const p1 = new Point([0.0, 0.0]);
+        const p2 = new Point([1.0, 1.0]);
+        const ls = new LineString([p1, p2]);
+        
+        ls.translate(2.0, 3.0);
+        
+        expect(ls.getPointN(0).x()).to.equal(2.0);
+        expect(ls.getPointN(0).y()).to.equal(3.0);
+        expect(ls.getPointN(1).x()).to.equal(3.0);
+        expect(ls.getPointN(1).y()).to.equal(4.0);
+    });
+
+    it("test translate on empty linestring", () => {
+        const ls = new LineString();
+        ls.translate(5.0, 10.0); 
+        expect(ls.isEmpty()).to.be.true;
+    });
+
 });

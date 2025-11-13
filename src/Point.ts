@@ -28,5 +28,16 @@ export default class Point implements Geometry {
     return this.coordinate === undefined;
   }
 
+  translate(dx: number, dy: number): void {
+    if (this.coordinate !== undefined) {
+      this.coordinate[0] += dx;
+      this.coordinate[1] += dy;
+    }
+  }
+
+  
+
+  
+
 
 }

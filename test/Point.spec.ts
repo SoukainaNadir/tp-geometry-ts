@@ -28,6 +28,21 @@ describe("test Point", () => {
         expect(p.isEmpty()).to.equal(false);
     });
 
+    it("test translate", () => {
+        const p = new Point([3.0, 4.0]);
+        p.translate(1.0, 2.0);
+        expect(p.x()).to.equal(4.0);
+        expect(p.y()).to.equal(6.0);
+    });
+
+    it("test translate on empty point", () => {
+        const p = new Point();
+        p.translate(1.0, 2.0);
+        expect(Number.isNaN(p.x())).to.be.true;
+        expect(Number.isNaN(p.y())).to.be.true;
+        
+    });
+
     
 });
 
