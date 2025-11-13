@@ -35,6 +35,13 @@ export default class Point implements Geometry {
     }
   }
 
+  clone(): Point {
+    if (this.coordinate === undefined) {
+      return new Point();
+    }
+    return new Point([this.coordinate[0], this.coordinate[1]]);
+  }
+
   
 
   

@@ -71,4 +71,32 @@ describe("test LineString", () => {
         expect(ls.isEmpty()).to.be.true;
     });
 
+
+    it("test clone empty linestring", () => {
+        const ls = new LineString();
+        const copy = ls.clone();
+        
+        expect(copy).to.not.equal(ls); 
+        expect(copy.isEmpty()).to.equal(true);
+    });
+
+    it("test clone linestring with points", () => {
+        const p1 = new Point([0.0, 0.0]);
+        const p2 = new Point([1.0, 1.0]);
+        const ls = new LineString([p1, p2]);
+        const copy = ls.clone();
+        
+        expect(copy).to.not.equal(ls);
+        expect(copy.getNumPoints()).to.equal(2);
+        expect(copy.getPointN(0).x()).to.equal(0.0);
+        expect(copy.getPointN(0).y()).to.equal(0.0);
+        
+        copy.translate(10.0, 10.0);
+        copy.translate(10.0, 10.0);
+    
+        expect(ls.getPointN(0).x()).to.equal(0.0); 
+        expect(ls.getPointN(0).y()).to.equal(0.0);
+        expect(copy.getPointN(0).x()).to.equal(10.0);
+        expect(copy.getPointN(0).y()).to.equal(10.0);
+    });
 });

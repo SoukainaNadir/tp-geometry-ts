@@ -33,5 +33,9 @@ export default class LineString implements Geometry {
     }
   }
 
+  clone(): LineString {
+    const clonedPoints = this.points.map(point => point.clone());
+    return new LineString(clonedPoints);
+  }
 
 }
