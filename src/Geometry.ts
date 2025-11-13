@@ -1,3 +1,5 @@
+import Envelope from "./Envelope";
+
 export default interface Geometry {
     getType(): string;
     isEmpty(): boolean;
