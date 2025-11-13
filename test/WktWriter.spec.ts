@@ -4,6 +4,7 @@ import WktWriter from "../src/WktWriter";
 import Point from "../src/Point";
 import LineString from "../src/LineString";
 import Geometry from "../src/Geometry";
+import GeometryVisitor from "../src/GeometryVisitor";
 
 describe("test WktWriter", () => {
     let writer: WktWriter;
@@ -43,6 +44,9 @@ describe("test WktWriter", () => {
             translate(dx: number, dy: number): void { }
             clone(): Geometry { return this; }
             getEnvelope(): any { return null; }
+            accept(visitor: GeometryVisitor): void {
+                
+            }
         }
 
         const unsupported = new UnsupportedGeometry();
