@@ -2,33 +2,39 @@ import Coordinate from "./Coordinate";
 import Envelope from "./Envelope";
 
 export default class EnvelopeBuilder {
-    private coordinates: Coordinate[];
+  private xMin?: number;
+  private yMin?: number;
+  private xMax?: number;
+  private yMax?: number;
 
-    constructor() {
-        this.coordinates = [];
+  constructor() {
+    this.xMin = undefined;
+    this.yMin = undefined;
+    this.xMax = undefined;
+    this.yMax = undefined;
+  }
+
+  insert(coordinate: Coordinate): void {
+    const x = coordinate[0];
+    const y = coordinate[1];
+
+    if (this.xMin === undefined) {
+      this.xMin = x;
+      this.xMax = x;
+      this.yMin = y;
+      this.yMax = y;
+    } else {
+      if (x < this.xMin) this.xMin = x;
+      if (x > this.xMax) this.xMax = x;
+      if (y < this.yMin) this.yMin = y;
+      if (y > this.yMax) this.yMax = y;
     }
+  }
 
-    insert(coordinate: Coordinate): void {
-        this.coordinates.push(coordinate);
+  build(): Envelope {
+    if (this.xMin === undefined) {
+      throw new Error("Cannot build envelope with no coordinates");
     }
-
-    build(): Envelope {
-        if (this.coordinates.length === 0) {
-            throw new Error("Cannot build envelope with no coordinates");
-        }
-
-        let xMin = this.coordinates[0][0];
-        let yMin = this.coordinates[0][1];
-        let xMax = this.coordinates[0][0];
-        let yMax = this.coordinates[0][1];
-
-        for (const coord of this.coordinates) {
-            if (coord[0] < xMin) xMin = coord[0];
-            if (coord[0] > xMax) xMax = coord[0];
-            if (coord[1] < yMin) yMin = coord[1];
-            if (coord[1] > yMax) yMax = coord[1];
-        }
-
-        return new Envelope([xMin, yMin], [xMax, yMax]);
-    }
+    return new Envelope([this.xMin, this.yMin!], [this.xMax!, this.yMax!]);
+  }
 }
