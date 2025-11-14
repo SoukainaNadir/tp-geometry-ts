@@ -4,6 +4,7 @@ import Envelope from "../src/Envelope";
 import EnvelopeBuilder from "../src/EnvelopeBuilder";
 import LineString from "../src/LineString";
 import Point from "../src/Point";
+import GeometryCollection from "../src/GeometryCollection";
 
 describe("test Envelope", () => {
     it("test envelope creation and getters", () => {
@@ -105,5 +106,25 @@ describe("test EnvelopeBuilder", () => {
         expect(result.getYmax()).to.equal(3.0);
     });
 
+
+    it("test EnvelopeBuilder as visitor with GeometryCollection", () => {
+        const builder = new EnvelopeBuilder();
+
+        const point = new Point([3.0, 4.0]);
+        const lineString = new LineString([
+            new Point([0.0, 1.0]),
+            new Point([2.0, 0.0]),
+            new Point([1.0, 3.0])
+        ]);
+        const collection = new GeometryCollection([point, lineString]);
+
+        builder.visitGeometryCollection(collection);
+
+        const result = builder.build();
+        expect(result.getXmin()).to.equal(0.0);
+        expect(result.getYmin()).to.equal(0.0);
+        expect(result.getXmax()).to.equal(3.0);
+        expect(result.getYmax()).to.equal(4.0);
+    });
 
 });

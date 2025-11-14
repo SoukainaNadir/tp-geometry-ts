@@ -1,5 +1,6 @@
 import Coordinate from "./Coordinate";
 import Geometry from "./Geometry";
+import GeometryCollection from "./GeometryCollection";
 import LineString from "./LineString";
 import Point from "./Point";
 
@@ -13,6 +14,7 @@ export default class WktWriter {
             throw new TypeError("Geometry type not supported");
         }
     }
+
 
     private formatCoordinate(coordinate: Coordinate): string {
         return coordinate.join(' ');
@@ -36,4 +38,5 @@ export default class WktWriter {
         }
         return `LineString(${coordinates.join(",")})`;
     }
+
 }
