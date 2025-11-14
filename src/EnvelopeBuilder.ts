@@ -6,7 +6,7 @@ import Interval from "./Interval";
 import LineString from "./LineString";
 import Point from "./Point";
 
-export default class EnvelopeBuilder implements GeometryVisitor {
+export default class EnvelopeBuilder implements GeometryVisitor<void> {
   private _intervals: Interval[] = [];
 
   insert(coordinate: Coordinate): void {

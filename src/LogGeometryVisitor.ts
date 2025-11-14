@@ -3,7 +3,7 @@ import Point from "./Point";
 import LineString from "./LineString";
 import GeometryCollection from "./GeometryCollection";
 
-export default class LogGeometryVisitor implements GeometryVisitor {
+export default class LogGeometryVisitor implements GeometryVisitor<void> {
     constructor(private log = console.log) { }
 
     visitPoint(point: Point): void {
@@ -23,6 +23,6 @@ export default class LogGeometryVisitor implements GeometryVisitor {
     }
 
     visitGeometryCollection(geometryCollection: GeometryCollection): void {
-        this.log(`Je suis une GeometryCollection avec ${geometryCollection.getNumGeometries()} géométries.`);
+        this.log(`Je suis une GeometryCollection avec ${geometryCollection.getNumGeometries()} géométrie(s).`);
     }
 }

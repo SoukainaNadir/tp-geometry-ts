@@ -1,10 +1,10 @@
 import GeometryVisitor from "./GeometryVisitor";
 import LineString from "./LineString";
 import Point from "./Point";
-import Coordinate from "./Coordinate";
 import GeometryCollection from "./GeometryCollection";
+import Coordinate from "./Coordinate";
 
-export default class WktVisitor implements GeometryVisitor {
+export default class WktVisitor implements GeometryVisitor<void> {
     private buffer: string;
 
     constructor() {

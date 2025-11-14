@@ -41,8 +41,8 @@ export default class GeometryCollection implements Geometry {
         return builder.build();
     }
 
-    accept(visitor: GeometryVisitor): void {
-        visitor.visitGeometryCollection(this);
+    accept<T>(visitor: GeometryVisitor<T>): T {
+        return visitor.visitGeometryCollection(this);
     }
 
     asText(): string {

@@ -3,6 +3,7 @@ import { expect } from "chai";
 import Point from "../src/Point";
 import LineString from "../src/LineString";
 import LogGeometryVisitor from "../src/LogGeometryVisitor";
+import GeometryCollection from "../src/GeometryCollection";
 
 describe("test LogGeometryVisitor", () => {
     let output: string[];
@@ -58,4 +59,14 @@ describe("test LogGeometryVisitor", () => {
         const point = new Point([1.0, 2.0]);
         expect(() => point.accept(defaultVisitor)).to.not.throw();
     });
+    it("test visit geometryCollection", () => {
+        const point = new Point([1.0, 2.0]);
+        const lineString = new LineString([new Point([0.0, 0.0])]);
+        const collection = new GeometryCollection([point, lineString]);
+
+        collection.accept(visitor);
+
+        expect(output[0]).to.equal("Je suis une GeometryCollection avec 2 géométrie(s).");
+    });
+
 });

@@ -12,7 +12,7 @@ describe("test GeometryCollection", () => {
             new Point([1.0, 1.0])
         ]);
         const collection = new GeometryCollection([point, lineString]);
-        
+
         expect(collection.getType()).to.equal("GeometryCollection");
         expect(collection.getNumGeometries()).to.equal(2);
         expect(collection.isEmpty()).to.equal(false);
@@ -27,9 +27,9 @@ describe("test GeometryCollection", () => {
     it("test translate", () => {
         const point = new Point([1.0, 2.0]);
         const collection = new GeometryCollection([point]);
-        
+
         collection.translate(1.0, 1.0);
-        
+
         expect(point.x()).to.equal(2.0);
         expect(point.y()).to.equal(3.0);
     });
@@ -37,9 +37,9 @@ describe("test GeometryCollection", () => {
     it("test clone", () => {
         const point = new Point([1.0, 2.0]);
         const collection = new GeometryCollection([point]);
-        
+
         const cloned = collection.clone();
-        
+
         collection.translate(1.0, 1.0);
         expect((cloned as GeometryCollection).getGeometryN(0).asText()).to.equal("POINT(1 2)");
     });
@@ -51,9 +51,9 @@ describe("test GeometryCollection", () => {
             new Point([2.0, 1.0])
         ]);
         const collection = new GeometryCollection([point, lineString]);
-        
+
         const envelope = collection.getEnvelope();
-        
+
         expect(envelope.getXmin()).to.equal(0.0);
         expect(envelope.getXmax()).to.equal(3.0);
     });
@@ -65,7 +65,13 @@ describe("test GeometryCollection", () => {
             new Point([1.0, 1.0])
         ]);
         const collection = new GeometryCollection([point, lineString]);
-        
+
         expect(collection.asText()).to.equal("GEOMETRYCOLLECTION(POINT(3 4),LINESTRING(0 0,1 1))");
     });
+
+    it("test isEmpty with all empty geometries", () => {
+        const collection = new GeometryCollection([new Point(), new LineString()]);
+        expect(collection.isEmpty()).to.equal(true);
+    });
+
 });
