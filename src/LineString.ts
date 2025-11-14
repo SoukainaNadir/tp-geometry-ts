@@ -1,57 +1,58 @@
-import Geometry from "./Geometry";
+import AbstractGeometry from "./AbstractGeometry";
 import Point from "./Point";
 import Envelope from "./Envelope";
 import EnvelopeBuilder from "./EnvelopeBuilder";
 import GeometryVisitor from "./GeometryVisitor";
 
-export default class LineString implements Geometry {
-    private points: Point[];
+export default class LineString extends AbstractGeometry {
+  private points: Point[];
 
-    constructor(points?: Point[]) {
-        this.points = points ?? [];
-    }
+  constructor(points?: Point[]) {
+    super();
+    this.points = points ?? [];
+  }
 
-    getNumPoints(): number {
-        return this.points.length;
-    }
+  getNumPoints(): number {
+    return this.points.length;
+  }
 
-    getPointN(n: number): Point {
-        if (n < 0 || n >= this.points.length) {
-            throw new Error(`Index out of bounds: ${n}`);
-        }
-        return this.points[n];
+  getPointN(n: number): Point {
+    if (n < 0 || n >= this.points.length) {
+      throw new Error(`Index out of bounds: ${n}`);
     }
+    return this.points[n];
+  }
 
-    getType(): string {
-        return this.constructor.name;
-    }
+  getType(): string {
+    return this.constructor.name;
+  }
 
-    isEmpty(): boolean {
-        return this.points.length === 0;
-    }
+  isEmpty(): boolean {
+    return this.points.length === 0;
+  }
 
-    translate(dx: number, dy: number): void {
-        for (const point of this.points) {
-            point.translate(dx, dy);
-        }
+  translate(dx: number, dy: number): void {
+    for (const point of this.points) {
+      point.translate(dx, dy);
     }
+  }
 
-    clone(): LineString {
-        const clonedPoints = this.points.map(point => point.clone());
-        return new LineString(clonedPoints);
-    }
+  clone(): LineString {
+    const clonedPoints = this.points.map(point => point.clone());
+    return new LineString(clonedPoints);
+  }
 
-    getEnvelope(): Envelope {
-        const builder = new EnvelopeBuilder();
-        for (const point of this.points) {
-            if (!point.isEmpty()) {
-                builder.insert(point.getCoordinate());
-            }
-        }
-        return builder.build();
+  getEnvelope(): Envelope {
+    const builder = new EnvelopeBuilder();
+    for (const point of this.points) {
+      if (!point.isEmpty()) {
+        builder.insert(point.getCoordinate());
+      }
     }
+    return builder.build();
+  }
 
-    accept(visitor: GeometryVisitor): void {
-        visitor.visitLineString(this);
-    }
+  accept(visitor: GeometryVisitor): void {
+    visitor.visitLineString(this);
+  }
 }

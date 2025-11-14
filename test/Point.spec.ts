@@ -76,6 +76,16 @@ describe("test Point", () => {
         expect(env.getYmax()).to.equal(4.0);
     });
 
+    it("test asText empty point", () => {
+        const p = new Point();
+        expect(p.asText()).to.equal("POINT EMPTY");
+    });
+
+    it("test asText point with coordinates", () => {
+        const p = new Point([3.0, 4.0]);
+        expect(p.asText()).to.equal("POINT(3 4)");
+    });
+
 
 });
 

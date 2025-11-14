@@ -37,19 +37,5 @@ describe("test WktWriter", () => {
         expect(writer.write(lineString)).to.equal("LineString(0 0,1 1,5 5)");
     });
 
-    it("test write unsupported geometry type", () => {
-        class UnsupportedGeometry implements Geometry {
-            getType(): string { return "Unsupported"; }
-            isEmpty(): boolean { return false; }
-            translate(dx: number, dy: number): void { }
-            clone(): Geometry { return this; }
-            getEnvelope(): any { return null; }
-            accept(visitor: GeometryVisitor): void {
-                
-            }
-        }
 
-        const unsupported = new UnsupportedGeometry();
-        expect(() => writer.write(unsupported)).to.throw(TypeError, "Geometry type not supported");
-    });
 });

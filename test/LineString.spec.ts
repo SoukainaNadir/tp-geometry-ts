@@ -107,4 +107,18 @@ describe("test LineString", () => {
         expect(env.getXmax()).to.equal(2.0);
         expect(env.getYmax()).to.equal(3.0);
     });
+
+
+    it("test asText empty linestring", () => {
+        const ls = new LineString();
+        expect(ls.asText()).to.equal("LINESTRING EMPTY");
+    });
+
+    it("test asText linestring with points", () => {
+        const p1 = new Point([0.0, 0.0]);
+        const p2 = new Point([1.0, 1.0]);
+        const p3 = new Point([2.0, 2.0]);
+        const ls = new LineString([p1, p2, p3]);
+        expect(ls.asText()).to.equal("LINESTRING(0 0,1 1,2 2)");
+    });
 });
