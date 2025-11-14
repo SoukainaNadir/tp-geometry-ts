@@ -36,5 +36,4 @@ export default class WktVisitor implements GeometryVisitor {
         return this.buffer;
     }
 
-
 }

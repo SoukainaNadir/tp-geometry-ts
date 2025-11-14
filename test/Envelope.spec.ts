@@ -2,6 +2,8 @@ import "mocha";
 import { expect } from "chai";
 import Envelope from "../src/Envelope";
 import EnvelopeBuilder from "../src/EnvelopeBuilder";
+import LineString from "../src/LineString";
+import Point from "../src/Point";
 
 describe("test Envelope", () => {
     it("test envelope creation and getters", () => {
@@ -68,5 +70,44 @@ describe("test EnvelopeBuilder", () => {
         expect(result.getYmin()).to.equal(1.0);
         expect(result.getYmax()).to.equal(8.0);
     });
+
+
+    it("test EnvelopeBuilder as visitor with Point", () => {
+        const builder = new EnvelopeBuilder();
+        const point = new Point([3.0, 4.0]);
+        builder.visitPoint(point);
+        const result = builder.build();
+        expect(result.getXmin()).to.equal(3.0);
+        expect(result.getYmin()).to.equal(4.0);
+        expect(result.getXmax()).to.equal(3.0);
+        expect(result.getYmax()).to.equal(4.0);
+    });
+
+    it("test EnvelopeBuilder as visitor with empty Point", () => {
+        const builder = new EnvelopeBuilder();
+        const emptyPoint = new Point();
+        builder.visitPoint(emptyPoint);
+        expect(() => builder.build()).to.throw("Cannot build envelope with no coordinates");
+    });
+
+    it("test EnvelopeBuilder as visitor with LineString", () => {
+        const builder = new EnvelopeBuilder();
+        const lineString = new LineString([
+            new Point([0.0, 1.0]),
+            new Point([2.0, 0.0]),
+            new Point([1.0, 3.0])
+        ]);
+        builder.visitLineString(lineString);
+        const result = builder.build();
+        expect(result.getXmin()).to.equal(0.0);
+        expect(result.getYmin()).to.equal(0.0);
+        expect(result.getXmax()).to.equal(2.0);
+        expect(result.getYmax()).to.equal(3.0);
+    });
+
+  
+
+
+
 
 });
