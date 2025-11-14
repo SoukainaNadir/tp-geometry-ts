@@ -1,57 +1,46 @@
 import Coordinate from "./Coordinate";
 import Envelope from "./Envelope";
 import GeometryVisitor from "./GeometryVisitor";
-import Point from "./Point";
+import Interval from "./Interval";
 import LineString from "./LineString";
+import Point from "./Point";
 
 export default class EnvelopeBuilder implements GeometryVisitor {
-    private xMin?: number;
-    private yMin?: number;
-    private xMax?: number;
-    private yMax?: number;
+  private _intervals: Interval[] = [];
 
-    constructor() {
-        this.xMin = undefined;
-        this.yMin = undefined;
-        this.xMax = undefined;
-        this.yMax = undefined;
+  insert(coordinate: Coordinate): void {
+    if (coordinate === undefined) {
+      return;
     }
 
-    insert(coordinate: Coordinate): void {
-        const x = coordinate[0];
-        const y = coordinate[1];
-        if (this.xMin === undefined) {
-            this.xMin = x;
-            this.xMax = x;
-            this.yMin = y;
-            this.yMax = y;
-        } else {
-            if (x < this.xMin) this.xMin = x;
-            if (x > this.xMax) this.xMax = x;
-            if (y < this.yMin) this.yMin = y;
-            if (y > this.yMax) this.yMax = y;
-        }
+    for (let i = 0; i < coordinate.length; i++) {
+      if (!this._intervals[i]) {
+        this._intervals[i] = new Interval();
+      }
+      this._intervals[i].insert(coordinate[i]);
+    }
+  }
+
+  build(): Envelope {
+    if (this._intervals.length < 2 || this._intervals[0].isEmpty() || this._intervals[1].isEmpty()) {
+      throw new Error("Cannot build envelope with no coordinates");
     }
 
-    build(): Envelope {
-        if (this.xMin === undefined) {
-            throw new Error("Cannot build envelope with no coordinates");
-        }
-        return new Envelope([this.xMin, this.yMin!], [this.xMax!, this.yMax!]);
+    const bottomLeft = [this._intervals[0].getMin(), this._intervals[1].getMin()];
+    const topRight = [this._intervals[0].getMax(), this._intervals[1].getMax()];
+    return new Envelope(bottomLeft, topRight);
+  }
+  
+  visitPoint(point: Point): void {
+    if (!point.isEmpty()) {
+      this.insert(point.getCoordinate());
     }
+  }
 
-    visitPoint(point: Point): void {
-        if (!point.isEmpty()) {
-            this.insert(point.getCoordinate());
-        }
+  visitLineString(lineString: LineString): void {
+    for (let i = 0; i < lineString.getNumPoints(); i++) {
+      const point = lineString.getPointN(i);
+      this.insert(point.getCoordinate());
     }
-
-    visitLineString(lineString: LineString): void {
-        for (let i = 0; i < lineString.getNumPoints(); i++) {
-            const point = lineString.getPointN(i);
-            if (!point.isEmpty()) {
-                this.insert(point.getCoordinate());
-            }
-        }
-    }
+  }
 }

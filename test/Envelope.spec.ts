@@ -105,9 +105,5 @@ describe("test EnvelopeBuilder", () => {
         expect(result.getYmax()).to.equal(3.0);
     });
 
-  
-
-
-
 
 });
